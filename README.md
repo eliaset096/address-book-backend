@@ -26,14 +26,12 @@ Es una sencilla implentación en Spring Boot del CRUD de una libreta de contacto
 
 ### Para correr el proyecto
 
->mvn install
+> ./mvnw install
 
->mvn test
-
->mvn springboot:run
+> ./mvnw clean spring-boot:run
 
 
-## Para realizar las peticones
+## Endpoints
 
 
 GET: http://localhost:9595/api/address-book/contacts

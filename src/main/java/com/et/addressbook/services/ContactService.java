@@ -1,15 +1,12 @@
 package com.et.addressbook.services;
 
 import com.et.addressbook.entities.Contact;
-import com.et.addressbook.repository.ContactRepository;
+import com.et.addressbook.repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ContactService implements IContactService {
-
 
     private ContactRepository contactRepository;
 
@@ -57,6 +54,17 @@ public class ContactService implements IContactService {
     }
 
     @Override
+    public Contact searchContactByFirstNameAndLastName(String firstName, String lastName) {
+        return contactRepository.findContactByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public Contact searchContactByEmail(String email) {
+        return contactRepository.findContactByEmail(email);
+    }
+
+
+    @Override
     public Contact deleteContact(Contact contact) {
         Contact contactToDelete = null;
         if (contactRepository.existsById(contact.getContId())){
@@ -70,4 +78,7 @@ public class ContactService implements IContactService {
     public Iterable<Contact> getContacts() {
         return contactRepository.findAll();
     }
+
+
+
 }

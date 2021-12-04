@@ -8,14 +8,8 @@ import java.io.Serializable;
 @NamedQuery(name="contact.findAll", query="SELECT u FROM Contact  u")
 public class Contact implements Serializable {
 
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cont_id")*/
-
     @Id
-    //@SequenceGenerator(name="contact_contId_generator", sequenceName="contact_seq")
-    //@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="contact_contId_generator")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "cont_id")
     private long contId;
     @Column(name = "first_name")

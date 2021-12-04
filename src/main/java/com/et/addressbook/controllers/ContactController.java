@@ -1,4 +1,4 @@
-package com.et.addressbook.controller;
+package com.et.addressbook.controllers;
 
 import com.et.addressbook.entities.Contact;
 import com.et.addressbook.services.ContactService;
@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/address-book")
 public class ContactController implements IContactController {
@@ -17,7 +18,6 @@ public class ContactController implements IContactController {
     public ContactController(ContactService contactService) {
         this.contactService = contactService;
     }
-
 
     @Override
     @PostMapping("/add")
@@ -54,10 +54,10 @@ public class ContactController implements IContactController {
 
     @Override
     @GetMapping("/first-name/{firstName}")
-    public ResponseEntity<Contact> getContactByFirstName(@PathVariable("firstName") String firtsName) {
+    public ResponseEntity<Contact> getContactByFirstName(@PathVariable("firstName") String firstName) {
         Contact contactSearched = null;
-        if (contactService.searchContactByFirstName(firtsName)!=null){
-            contactSearched = contactService.searchContactByFirstName(firtsName);
+        if (contactService.searchContactByFirstName(firstName)!=null){
+            contactSearched = contactService.searchContactByFirstName(firstName);
             return new ResponseEntity<Contact>(contactSearched, HttpStatus.OK);
         }
         return new ResponseEntity<Contact>(contactSearched, HttpStatus.BAD_REQUEST);
@@ -69,6 +69,28 @@ public class ContactController implements IContactController {
         Contact contactSearched = null;
         if (contactService.searchContactByLastName(lastName)!=null){
             contactSearched = contactService.searchContactByLastName(lastName);
+            return new ResponseEntity<Contact>(contactSearched, HttpStatus.OK);
+        }
+        return new ResponseEntity<Contact>(contactSearched, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    @GetMapping("/first-name-and-last-name/{firstName} {lastName}")
+    public ResponseEntity<Contact> getContactByFistNameAndLastName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+        Contact contactSearched = null;
+        if (contactService.searchContactByFirstName(firstName)!=null && contactService.searchContactByLastName(lastName)!=null){
+            contactSearched = contactService.searchContactByFirstNameAndLastName(firstName, lastName);
+            return new ResponseEntity<Contact>(contactSearched, HttpStatus.OK);
+        }
+        return new ResponseEntity<Contact>(contactSearched, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Contact> getContactByEmail(@PathVariable("email")  String email) {
+        Contact contactSearched = null;
+        if (contactService.searchContactByEmail(email)!=null){
+            contactSearched = contactService.searchContactByEmail(email);
             return new ResponseEntity<Contact>(contactSearched, HttpStatus.OK);
         }
         return new ResponseEntity<Contact>(contactSearched, HttpStatus.BAD_REQUEST);
