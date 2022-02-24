@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/address-book")
+@RequestMapping("/contacts")
 public class ContactController implements IContactController {
 
     private ContactService contactService;
@@ -31,10 +31,10 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @PostMapping("/update")
-    public ResponseEntity<Contact> modifyContact(@RequestBody Contact contact) {
+    @PatchMapping("/update/{contId}")
+    public ResponseEntity<Contact> modifyContact(@PathVariable("contId") long contId, @RequestBody Contact contact) {
         Contact contactToModify = null;
-        if (contactService.isExistContact(contact.getContId())){
+        if (contactService.isExistContact(contId)){
             contactToModify = contactService.modifyContact(contact);
             return new ResponseEntity<Contact>(contactToModify, HttpStatus.OK);
         }
@@ -42,18 +42,18 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/cont-id/{contId}")
+    @GetMapping("/find-by-id/{contId}")
     public ResponseEntity<Contact> getContact(@PathVariable("contId") long contId) {
         Contact contactSearched = null;
         if (contactService.isExistContact(contId)){
             contactSearched = contactService.searchContact(contId);
             return new ResponseEntity<Contact>(contactSearched, HttpStatus.OK);
         }
-        return new ResponseEntity<Contact>(contactSearched, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Contact>(contactSearched, HttpStatus.NOT_FOUND);
     }
 
     @Override
-    @GetMapping("/first-name/{firstName}")
+    @GetMapping("/find-by-first-name/{firstName}")
     public ResponseEntity<Contact> getContactByFirstName(@PathVariable("firstName") String firstName) {
         Contact contactSearched = null;
         if (contactService.searchContactByFirstName(firstName)!=null){
@@ -64,7 +64,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/last-name/{lastName}")
+    @GetMapping("/find-by-last-name/{lastName}")
     public ResponseEntity<Contact> getContactByLastName(@PathVariable("lastName") String lastName) {
         Contact contactSearched = null;
         if (contactService.searchContactByLastName(lastName)!=null){
@@ -75,7 +75,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/first-name-and-last-name/{firstName} {lastName}")
+    @GetMapping("/find-by-first-and-last-name/{firstName} {lastName}")
     public ResponseEntity<Contact> getContactByFistNameAndLastName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
         Contact contactSearched = null;
         if (contactService.searchContactByFirstName(firstName)!=null && contactService.searchContactByLastName(lastName)!=null){
@@ -86,7 +86,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/email/{email}")
+    @GetMapping("/find-by-email/{email}")
     public ResponseEntity<Contact> getContactByEmail(@PathVariable("email")  String email) {
         Contact contactSearched = null;
         if (contactService.searchContactByEmail(email)!=null){
@@ -97,18 +97,19 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @PostMapping("/delete")
-    public ResponseEntity<Contact> deleteContact(@RequestBody Contact contact) {
+    @DeleteMapping("/delete/{contId}")
+    public ResponseEntity<Contact> deleteContact(@PathVariable("contId") long contId) {
         Contact contactToDelete = null;
-        if (contactService.isExistContact(contact.getContId())){
-            contactToDelete= contactService.deleteContact(contact);
+        if (contactService.isExistContact(contId)){
+            Contact aContact = contactService.searchContact(contId);
+            contactToDelete= contactService.deleteContact(aContact);
             return new ResponseEntity<Contact>(contactToDelete, HttpStatus.OK);
         }
         return new ResponseEntity<Contact>(contactToDelete, HttpStatus.BAD_REQUEST);
     }
 
     @Override
-    @GetMapping("/contacts")
+    @GetMapping("")
     public ResponseEntity<Iterable<Contact>> getContacts() {
         return new ResponseEntity<Iterable<Contact>>(contactService.getContacts(), HttpStatus.OK);
     }

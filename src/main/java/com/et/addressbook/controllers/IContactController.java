@@ -8,7 +8,7 @@ public interface IContactController {
 
     ResponseEntity<Contact> addContact(@RequestBody Contact contact);
 
-    ResponseEntity<Contact> modifyContact(@RequestBody Contact contact);
+    ResponseEntity<Contact> modifyContact(@PathVariable("contId") long contId, @RequestBody Contact contact);
 
     ResponseEntity<Contact> getContact(@PathVariable("contId") long contId);
 
@@ -20,7 +20,7 @@ public interface IContactController {
 
     ResponseEntity<Contact> getContactByEmail(@PathVariable String email);
 
-    ResponseEntity<Contact> deleteContact(@RequestBody Contact contact);
+    ResponseEntity<Contact> deleteContact(@PathVariable("contId") long contId);
 
     ResponseEntity<Iterable<Contact>> getContacts();
 
