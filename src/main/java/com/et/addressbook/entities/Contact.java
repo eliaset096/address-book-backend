@@ -1,35 +1,33 @@
 package com.et.addressbook.entities;
 
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+
 import java.io.Serializable;
 
-@Entity
-@Table(name = "contact")
-@NamedQuery(name="contact.findAll", query="SELECT u FROM Contact  u")
-public class Contact implements Serializable {
+@Document(collection = "contacts")
+public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "cont_id")
-    private long contId;
-    @Column(name = "first_name")
+    private String contId;
+
     private String firstName;
-    @Column(name = "last_name")
+
     private String lastName;
-    @Column(name = "phone_number")
+
     private String phoneNumber;
-    @Column(name = "email")
+
     private String email;
-    @Column(name = "address")
+
     private String address;
-    @Column(name = "company")
+
     private String company;
-    @Column(name = "job_position")
+
     private String jobPosition;
 
     public Contact() {
     }
-    public Contact(long contId, String firstName, String lastName, String phoneNumber, String email, String address, String company, String jobPosition) {
+    public Contact(String contId, String firstName, String lastName, String phoneNumber, String email, String address, String company, String jobPosition) {
         this.contId = contId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,7 +38,7 @@ public class Contact implements Serializable {
         this.jobPosition = jobPosition;
     }
 
-    public long getContId() {
+    public String getContId() {
         return contId;
     }
 
@@ -99,4 +97,22 @@ public class Contact implements Serializable {
     public void setJobPosition(String jobPosition) {
         this.jobPosition = jobPosition;
     }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "contId=" + contId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", company='" + company + '\'' +
+                ", jobPosition='" + jobPosition + '\'' +
+                '}';
+    }
+
+
+
+
 }

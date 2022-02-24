@@ -10,7 +10,7 @@ public interface IContactController {
 
     ResponseEntity<Contact> modifyContact(@RequestBody Contact contact);
 
-    ResponseEntity<Contact> getContact(@PathVariable("contId") long contId);
+    ResponseEntity<Contact> getContact(@PathVariable("contId") String contId);
 
     ResponseEntity<Contact> getContactByFirstName(@PathVariable("firstName") String firtsName);
 

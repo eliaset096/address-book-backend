@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/address-book")
+@RequestMapping("/contacts")
 public class ContactController implements IContactController {
 
-    private ContactService contactService;
+    ContactService contactService;
 
     @Autowired
     public ContactController(ContactService contactService) {
@@ -42,8 +42,8 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/cont-id/{contId}")
-    public ResponseEntity<Contact> getContact(@PathVariable("contId") long contId) {
+    @GetMapping("/find/{contId}")
+    public ResponseEntity<Contact> getContact(@PathVariable("contId") String contId) {
         Contact contactSearched = null;
         if (contactService.isExistContact(contId)){
             contactSearched = contactService.searchContact(contId);
@@ -53,7 +53,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/first-name/{firstName}")
+    @GetMapping("/find/{firstName}")
     public ResponseEntity<Contact> getContactByFirstName(@PathVariable("firstName") String firstName) {
         Contact contactSearched = null;
         if (contactService.searchContactByFirstName(firstName)!=null){
@@ -64,7 +64,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/last-name/{lastName}")
+    @GetMapping("/find/{lastName}")
     public ResponseEntity<Contact> getContactByLastName(@PathVariable("lastName") String lastName) {
         Contact contactSearched = null;
         if (contactService.searchContactByLastName(lastName)!=null){
@@ -75,7 +75,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/first-name-and-last-name/{firstName} {lastName}")
+    @GetMapping("/find/{firstName} {lastName}")
     public ResponseEntity<Contact> getContactByFistNameAndLastName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
         Contact contactSearched = null;
         if (contactService.searchContactByFirstName(firstName)!=null && contactService.searchContactByLastName(lastName)!=null){
@@ -86,7 +86,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/email/{email}")
+    @GetMapping("/find/{email}")
     public ResponseEntity<Contact> getContactByEmail(@PathVariable("email")  String email) {
         Contact contactSearched = null;
         if (contactService.searchContactByEmail(email)!=null){
@@ -108,7 +108,7 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    @GetMapping("/contacts")
+    @GetMapping("")
     public ResponseEntity<Iterable<Contact>> getContacts() {
         return new ResponseEntity<Iterable<Contact>>(contactService.getContacts(), HttpStatus.OK);
     }

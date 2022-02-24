@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContactService implements IContactService {
 
-    private ContactRepository contactRepository;
+    ContactRepository contactRepository;
 
     @Autowired
     public ContactService(ContactRepository contactRepository) {
@@ -16,8 +16,8 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public boolean isExistContact(long contId) {
-        return contactRepository.existsById(contId);
+    public boolean isExistContact(String contId) {
+        return contactRepository.findById(contId).isPresent();
     }
 
     @Override
@@ -38,8 +38,9 @@ public class ContactService implements IContactService {
         }
     }
 
+
     @Override
-    public Contact searchContact(long contId) {
+    public Contact searchContact(String contId) {
         return contactRepository.findById(contId).get();
     }
 
@@ -62,7 +63,6 @@ public class ContactService implements IContactService {
     public Contact searchContactByEmail(String email) {
         return contactRepository.findContactByEmail(email);
     }
-
 
     @Override
     public Contact deleteContact(Contact contact) {
